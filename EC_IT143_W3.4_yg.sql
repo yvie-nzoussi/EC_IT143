@@ -18,14 +18,12 @@ FROM HumanResources.Department;
 
 -- Q3 (Business User - Moderate Complexity) by Mylor Humphreys
 -- Show me all employees and their job titles in the Engineering department.
-SELECT e.BusinessEntityID, p.FirstName, p.LastName, j.JobTitle
+SELECT e.BusinessEntityID, p.FirstName, p.LastName, e.JobTitle
 FROM HumanResources.Employee e
 JOIN HumanResources.EmployeeDepartmentHistory edh
     ON e.BusinessEntityID = edh.BusinessEntityID
 JOIN HumanResources.Department d
     ON edh.DepartmentID = d.DepartmentID
-JOIN HumanResources.JobCandidate j
-    ON e.BusinessEntityID = j.BusinessEntityID
 JOIN Person.Person p
     ON e.BusinessEntityID = p.BusinessEntityID
 WHERE d.Name = 'Engineering';
@@ -56,7 +54,7 @@ ORDER BY Quarter;
 
 -- Q6 (Business User - Increased Complexity) by Yvie Grace
 -- Sales Dept employee trends 2010-2014, count each year and department name
-SELECT d.Name AS DepartmentName, YEAR(edh.StartDate) AS Year, COUNT(e.BusinessEntityID) AS EmployeeCount
+SELECT d.Name AS DepartmentName, YEAR(edh.StartDate) AS Year, COUNT(DISTINCT e.BusinessEntityID) AS EmployeeCount
 FROM HumanResources.EmployeeDepartmentHistory edh
 JOIN HumanResources.Employee e
     ON edh.BusinessEntityID = e.BusinessEntityID
